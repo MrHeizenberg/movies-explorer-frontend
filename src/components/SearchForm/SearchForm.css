@@ -1,0 +1,126 @@
+.searchform {
+    margin: 70px 70px 48px;
+    display: flex;
+    flex-direction: column;
+}
+
+.searchform__form {
+    margin: 0;
+    padding-bottom: 13px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #8B8B8B;
+}
+
+.searchform__film {
+    width: 100%;
+    background-color: #202020;
+    border: none;
+    font-family: Inter;
+    font-weight: normal;
+    font-size: 28px;
+    line-height: 34px;
+    color: white;
+    outline: none;
+}
+
+.searchform__film::placeholder {
+    font-family: Inter;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 34px;
+    color: #8B8B8B;
+}
+
+.searchform__button {
+    margin-left: 50px;
+    padding: 0;
+    border: none;
+    min-width: 34px;
+    height: 34px;
+    background-image: url(../../images/find.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 48px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.searchform__button:hover {
+    opacity: 0.7;
+}
+
+.searchform__shortfilms {
+    margin-top: 32px;
+    display: flex;
+}
+
+.searchform__switch {
+    margin-right: 14px;
+    border: none;
+    padding: 0;
+    width: 36px;
+    height: 20px;
+    border-radius: 20px;
+    background-color: #343434;
+    cursor: pointer;
+    transition: background-image 0.3s ease;
+}
+
+.searchform__text {
+    margin: 0;
+    align-self: center;
+    font-family: Inter;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 18px;
+    color: #FFFFFF;
+}
+
+@media screen and (max-width: 1279px) {
+    .searchform {
+        margin: 80px 30px 61px;
+    }
+
+    .searchform__shortfilms {
+        margin: 30px 0 0 auto;
+    }
+
+    .searchform__switch {
+        margin-right: 16px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .searchform {
+        margin: 90px 14px 51px;
+    }
+
+    .searchform__film {
+        font-size: 18px;
+        line-height: 22px;
+    }
+    
+    .searchform__film::placeholder {
+        font-size: 18px;
+        line-height: 22px;
+    }
+
+    .searchform__form {
+        padding-bottom: 15px;
+    }
+
+    .searchform__shortfilms {
+        flex-direction: row-reverse;
+        margin: 41px auto 0;
+    }
+
+    .searchform__switch {
+        margin-right: 0;
+    }
+
+    .searchform__text {
+        margin-right: 13px;
+        font-size: 11px;
+    }
+}
