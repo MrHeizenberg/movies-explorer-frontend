@@ -1,0 +1,246 @@
+.header {
+    padding: 0 70px;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+.header__logo {
+    margin: 18px 0;
+    padding: 0;
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    background-image: url(../../images/logo.svg);
+    transition: opacity 0.3s ease;
+}
+
+.header__logo:hover {
+    opacity: 0.7;
+}
+
+.header__auth {
+    margin: 21px 0 0;
+}
+
+.header__signup {
+    margin-right: 30px;
+    border: none;
+    padding: 0;
+    width: 77px;
+    height: 16px;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    font-family: Inter;
+    background-color: #073042;
+    color:#FFFFFF;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.header__signup:hover {
+    opacity: 0.7;
+}
+
+.header__signin {
+    border: none;
+    border-radius: 3px;
+    padding: 0;
+    width: 76px;
+    height: 32px;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    font-family: Inter;
+    background-color: #073042;
+    color: #000000;
+    background-color: #3DDC84;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.header__signin:hover {
+    opacity: 0.7;
+}
+
+.header__menufilms {
+    margin: 28px 0;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+.header__films {
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    background-color: #202020;
+    font-family: Inter;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 18px;
+    text-align: right;
+    color: #FFFFFF;
+    transition: opacity 0.3s ease;
+}
+
+.header__films:hover {
+    opacity: 0.7;
+}
+
+.header__films:nth-of-type(1) {
+    margin-right: 16px;
+}
+
+.header__account {
+    display: flex;
+    justify-content: flex-end;
+    align-self: flex-start;
+    margin: 24px 0px 0 0;
+}
+
+.header__accountlink {
+    padding: 0;
+    margin-right: 7px;
+    border: none;
+    cursor: pointer;
+    background-color: #202020;
+    font-family: Inter;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 12px;
+    color: #FFFFFF;
+    transition: opacity 0.3s ease;
+}
+
+.header__accountlink:hover {
+    opacity: 0.7;
+}
+
+.header__accountlogo {
+    background-color: #313131;
+    width: 26px;
+    height: 26px;
+    border-radius: 50px;
+    background-image: url(../../images/account.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.header__onmobilemenu {
+    margin-top: 15px;
+    padding: 0;
+    border: none;
+    background-color: #202020;
+    background-image: url(../../images/mobilemenu.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+    display: none;
+}
+
+.header__onmobilemenu:hover {
+    opacity: 0.7;
+}
+
+.header__mobilemenu {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    right: 0;
+    height: 100vh;
+    width: 520px;
+    background-color: #202020;
+}
+
+.header__offmobilemenu {
+    padding: 0;
+    border: none;
+    background-color: #202020;
+    background-image: url(../../images/close.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 22px;
+    height: 22px;
+    margin: 22px 22px 105px auto;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.header__offmobilemenu:hover {
+    opacity: 0.7;
+}
+
+.header__navigation {
+    padding: 0;
+    margin: 0 auto 28px;
+    border: none;
+    background-color: #202020;
+    font-family: Inter;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.header__navigation:nth-of-type(4) {
+    margin-bottom: 0px;
+}
+
+.header__navigation:hover {
+    opacity: 0.7;
+}
+
+.header__account_mobile {
+    margin: 0 auto 0;
+    position: absolute;
+    bottom: 90px;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+@media screen and (max-width: 1279px) {
+    .header {
+        padding: 0 30px;
+    }
+
+    .header__menufilms_fullscreen {
+        display: none;
+    }
+
+    .header__account_fullscreen {
+        display: none;
+    }
+
+    .header__onmobilemenu {
+        display: block;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .header {
+        padding: 0 14px;
+    }
+
+    .header__signup {
+        margin-right: 14px;
+        font-size: 10px;
+    }
+
+    .header__signin {
+        font-size: 10px;
+    }
+
+    .header__mobilemenu {
+        height: 100vh;
+        width: 100vw;
+    }
+}
