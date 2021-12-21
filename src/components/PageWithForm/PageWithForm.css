@@ -31,6 +31,7 @@
 }
 
 .pagewithform__container {
+    padding-bottom: 59px;
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -72,7 +73,7 @@
 
 .pagewithform__signbutton {
     padding: 0;
-    margin: 69px 0 16px;
+    margin: 0 0 16px;
     width: 396px;
     height: 45px;
     border: none;
@@ -89,6 +90,16 @@
 
 .pagewithform__signbutton:hover {
     opacity: 0.7;
+}
+
+.pagewithform__signbutton_disabled {
+    background-color: gray;
+    cursor: default;
+    transition: none;
+}
+
+.pagewithform__signbutton_disabled:hover {
+    opacity: 1;
 }
 
 .pagewithform__switchpage {
@@ -132,13 +143,34 @@
     color: #EE3465;
 }
 
+.pagewithform__apitexterror {
+    margin: 0 0 10px;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    width: 396px;
+    text-align: center;
+    color: red;
+}
+
 @media screen and (max-width: 1279px) {
     .pagewithform {
         padding-top: 232px;
     }
+
+    .pagewithform__apitexterror {
+        bottom: 80px;
+    }
 }
 
 @media screen and (max-width: 767px) {
+    .pagewithform__apitexterror {
+        width: 260px;
+        bottom: 120px;
+        font-size: 10px;
+        line-height: 12px;
+    }
+
     .pagewithform {
         padding-top: 56px;
         max-width: 260px;
@@ -155,7 +187,7 @@
 
     .pagewithform__signbutton {
         width: 260px;
-        margin: 157px 0 14px;
+        margin: 0 0 14px;
     }
 
     .pagewithform__switchtext {
@@ -167,5 +199,9 @@
     .pagewithform__switchbutton {
         font-size: 12px;
         line-height: 15px;
+    }
+
+    .pagewithform__container {
+        padding-bottom: 147px;
     }
 }

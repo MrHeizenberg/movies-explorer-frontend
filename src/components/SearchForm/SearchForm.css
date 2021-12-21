@@ -77,6 +77,22 @@
     color: #FFFFFF;
 }
 
+.searchform__texterror {
+    color: red;
+    margin-bottom: 0;
+    font-size: 13px;
+    line-height: 18px;
+}
+
+.searchform__button_disabled {
+    cursor: auto;
+    transition: none;
+}
+
+.searchform__button_disabled:hover {
+    opacity: 1;
+}
+
 @media screen and (max-width: 1279px) {
     .searchform {
         margin: 80px 30px 61px;

@@ -49,14 +49,14 @@
 }
 
 .preloader__container {
-    width: 36px;
-    height: 36px;
+    width: 80px;
+    height: 80px;
     position: relative;
 }
 
 .preloader__round {
-    width: 36px;
-    height: 36px;
+    width: 80px;
+    height: 80px;
     position: absolute;
     top: 0;
     left: 0;
@@ -67,8 +67,8 @@
 .preloader__round::after,
 .preloader__round::before {
     content: '';
-    width: 36px;
-    height: 36px;
+    width: 80px;
+    height: 80px;
     position: absolute;
     top: 0;
     left: 0;
@@ -110,6 +110,15 @@
     opacity: 0.7;
 }
 
+.preloader__notfoundtext {
+    margin: 0;
+    color: cadetblue;
+    font-family: Inter;
+    font-weight: 500;
+    font-size: 50px;
+    line-height:52px;
+}
+
 @media screen and (max-width: 767px) {
     .preloader__on {
         width: 240px;
@@ -118,5 +127,10 @@
 
     .preloader__container {
         margin-bottom: 80px;
+    }
+
+    .preloader__notfoundtext {
+        font-size: 30px;
+        line-height:36px;
     }
 }

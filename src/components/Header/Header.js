@@ -4,7 +4,7 @@ import './Header.css';
 function Header(props) {
 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-
+    
     function onMobileMenu() {
         setIsMobileMenuOpen(true);
     }
@@ -14,24 +14,24 @@ function Header(props) {
     }
 
     return (
-        <div className='header' style={props.path === '/' ? { backgroundColor: '#073042' } : { backgroundColor: '#202020' }}>
+        <div className='header' style={props.location === '/' ? { backgroundColor: '#073042' } : { backgroundColor: '#202020' }}>
             <button className='header__logo' onClick={props.pushToMain} />
             {props.isLogged && <div className='header__menufilms header__menufilms_fullscreen'>
-                <button className='header__films' onClick={props.pushToFilms} style={props.path === '/movies' ? { fontWeight: '500' }: props.path === '/' ? { backgroundColor: '#073042' } : { backgroundColor: '#202020' }}>Фильмы</button>
-                <button className='header__films' onClick={props.pushToSavedFilms} style={props.path === '/saved-movies' ? { fontWeight: '500' }: props.path === '/' ? { backgroundColor: '#073042' } : { backgroundColor: '#202020' }}>Сохранённые фильмы</button>
+                <button className='header__films' onClick={props.pushToFilms} style={props.location === '/movies' ? { fontWeight: '500' }: props.location === '/' ? { backgroundColor: '#073042' } : { backgroundColor: '#202020' }}>Фильмы</button>
+                <button className='header__films' onClick={props.pushToSavedFilms} style={props.location === '/saved-movies' ? { fontWeight: '500' }: props.location === '/' ? { backgroundColor: '#073042' } : { backgroundColor: '#202020' }}>Сохранённые фильмы</button>
             </div>}
             {props.isLogged && <div className='header__account header__account_fullscreen'>
-                <button className='header__accountlink' onClick={props.pushToAccount} style={props.path === '/profile' ? { fontWeight: '500' }: props.path === '/' ? { backgroundColor: '#073042' } : { backgroundColor: '#202020' }}>Аккаунт</button>
+                <button className='header__accountlink' onClick={props.pushToAccount} style={props.location === '/profile' ? { fontWeight: '500' }: props.location === '/' ? { backgroundColor: '#073042' } : { backgroundColor: '#202020' }}>Аккаунт</button>
                 <div className='header__accountlogo'></div>
             </div>}
-            {props.isLogged && !isMobileMenuOpen && <button className='header__onmobilemenu' onClick = {onMobileMenu} style = {props.path === '/' ? { backgroundColor: '#073042' } : { backgroundColor: '#202020' }}></button>}
+            {props.isLogged && !isMobileMenuOpen && <button className='header__onmobilemenu' onClick = {onMobileMenu} style = {props.location === '/' ? { backgroundColor: '#073042' } : { backgroundColor: '#202020' }}></button>}
             {isMobileMenuOpen && <div className='header__mobilemenu'>
                 <button className='header__offmobilemenu' onClick={offMobileMenu}></button>
-                <button className='header__navigation' onClick={() => {props.pushToMain(); setIsMobileMenuOpen(false);}} style={props.path === '/' ? { borderBottom: '2px solid #FFFFFF' } : { borderBottom: 'none' }}>Главная</button>
-                <button className='header__navigation' onClick={() => {props.pushToFilms(); setIsMobileMenuOpen(false);}} style={props.path === '/movies' ? { borderBottom: '2px solid #FFFFFF' } : { borderBottom: 'none' }}>Фильмы</button>
-                <button className='header__navigation' onClick={() => {props.pushToSavedFilms(); setIsMobileMenuOpen(false);}} style={props.path === '/saved-movies' ? { borderBottom: '2px solid #FFFFFF' } : { borderBottom: 'none' }}>Сохранённые фильмы</button>
+                <button className='header__navigation' onClick={() => {props.pushToMain(); setIsMobileMenuOpen(false);}} style={props.location === '/' ? { borderBottom: '2px solid #FFFFFF' } : { borderBottom: 'none' }}>Главная</button>
+                <button className='header__navigation' onClick={() => {props.pushToFilms(); setIsMobileMenuOpen(false);}} style={props.location === '/movies' ? { borderBottom: '2px solid #FFFFFF' } : { borderBottom: 'none' }}>Фильмы</button>
+                <button className='header__navigation' onClick={() => {props.pushToSavedFilms(); setIsMobileMenuOpen(false);}} style={props.location === '/saved-movies' ? { borderBottom: '2px solid #FFFFFF' } : { borderBottom: 'none' }}>Сохранённые фильмы</button>
                 <div className='header__account header__account_mobile'>
-                    <button className='header__accountlink' onClick={() => {props.pushToAccount(); setIsMobileMenuOpen(false);}} style={props.path === '/profile' ? { borderBottom: '2px solid #FFFFFF' } : { borderBottom: 'none' }}>Аккаунт</button>
+                    <button className='header__accountlink' onClick={() => {props.pushToAccount(); setIsMobileMenuOpen(false);}} style={props.location === '/profile' ? { borderBottom: '2px solid #FFFFFF' } : { borderBottom: 'none' }}>Аккаунт</button>
                     <div className='header__accountlogo'></div>
                 </div>
             </div>}

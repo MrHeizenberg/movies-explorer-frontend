@@ -46,6 +46,7 @@
 }
 
 .moviescard__save {
+    background-color: #222222;
     margin: 18px auto;
     height: 28px;
     padding: 0;
@@ -74,7 +75,7 @@
     }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 768px) {
     .moviescard {
             width: 300px;
             height: 271px;

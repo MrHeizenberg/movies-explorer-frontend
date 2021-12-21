@@ -3,21 +3,29 @@ import './SavedMovies.css';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import MoviesCard from '../MoviesCard/MoviesCard';
-import picture from '../../images/pic__COLOR_pic.png';
-import button from '../../images/delete.svg';
+import carddelete from '../../images/delete.svg';
 
-function SavedMovies() {
+function SavedMovies(props) {
 
-    const cardInfo = {name: 'В погоне за Бенкси', duration: '27 минут', image: picture, button: button}
+    function changeSwitch() {
+        props.changeSwitch();
+    }
 
     return (
         <div className='savedmovies'>
-            <SearchForm/>
+            <SearchForm switchButton={props.switchOn} changeSwitch={changeSwitch} searchSavedMovies={props.searchSavedMovies} location={props.location}/>
             <MoviesCardList>
-                <MoviesCard card = {cardInfo}/>
-                <MoviesCard card = {cardInfo}/>
-                <MoviesCard card = {cardInfo}/>
+            {props.switchOn ? props.savedCards.filter(card => card.duration < 40).map((card) => {
+                    const cardinfo = {trailer: card.trailerLink, nameRU: card.nameRU, movieId: card.movieId, id: card._id, duration: card.duration, image: card.image};
+                    return (<MoviesCard 
+                        card = {cardinfo} key = {card._id} saveFilms={props.saveFilms} isSaved={props.isSaved} buttonImage={carddelete} location={props.location} deleteFilm={props.deleteFilm}/>)
+                }) : props.savedCards.map((card) => {
+                    const cardinfo = {trailer: card.trailerLink, nameRU: card.nameRU, movieId: card.movieId, id: card._id, duration: card.duration, image: card.image};
+                    return (<MoviesCard 
+                        card = {cardinfo} key = {card._id} saveFilms={props.saveFilms} isSaved={props.isSaved} buttonImage={carddelete} location={props.location} deleteFilm={props.deleteFilm}/>)
+                })}
             </MoviesCardList>
+            {!props.checkShortResult && <p className='savedmovies__result'>Ничего не найдено</p>}
         </div>
     )
 }
