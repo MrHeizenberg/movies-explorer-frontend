@@ -3,10 +3,6 @@ import './PageNotFound.css';
 
 function PageNotFound(props) {
 
-    React.useEffect(() => {
-        props.pushToAny();
-    },[])
-
     return (
         <div className='pagenotfound'>
             <p className='pagenotfound__errornumber'>404</p>

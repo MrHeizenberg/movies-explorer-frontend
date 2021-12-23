@@ -1,22 +1,13 @@
 import React from 'react'
 import './Preloader.css'
 
-const Preloader = () => {
-
-    const [isLoading, setIsLoading] = React.useState(false)
-    const onPreloader = () => {
-            setIsLoading(true);
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 3000)
-    }
-
+const Preloader = (props) => {
     return (
         <div className='preloader'>
-            {isLoading && <div className='preloader__container'>
+            {props.isLoading && <div className='preloader__container'>
                 <span className='preloader__round'></span>
             </div>}
-            {!isLoading && <button className='preloader__on' onClick = {onPreloader}>Ещё</button>}
+            {!props.isLoading && !props.checkResult ? <p className='preloader__notfoundtext'>Ничего не найдено</p> : !props.isLoading && !(props.cards.length < 4) && (props.cards.length - props.numbers > 0 ) && <button className='preloader__on' onClick={() => props.openFilms()}>Ещё</button>}
         </div>
     )
 };

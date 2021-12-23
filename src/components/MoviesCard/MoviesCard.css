@@ -46,6 +46,7 @@
 }
 
 .moviescard__save {
+    background-color: #222222;
     margin: 18px auto;
     height: 28px;
     padding: 0;
@@ -62,6 +63,17 @@
     opacity: 0.7;
 }
 
+.moviescard__apiErrorText {
+    margin: 0;
+    text-align: center;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 12px;
+    color: #EE3465;
+}
+
 @media screen and (max-width: 1279px) {
     .moviescard {
             width: 342px;
@@ -74,7 +86,7 @@
     }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 768px) {
     .moviescard {
             width: 300px;
             height: 271px;
