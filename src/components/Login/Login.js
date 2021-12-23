@@ -23,6 +23,11 @@ function Login(props) {
         setEMail(e.target.value);
         setEMailValid(e.target.validity.valid);
         if (!e.target.validity.valid) {
+            if (e.target.validity.patternMismatch) {
+                const errorMessage = 'Введите корректный email';
+                setEMailTextError(errorMessage);
+                return;
+            }
             const errorMessage = e.target.validationMessage;
             setEMailTextError(errorMessage);
         }
@@ -48,14 +53,14 @@ function Login(props) {
                 <form type='submit' className='pagewithform__form' onSubmit={handleSubmit} onChange={checkValidity}>
                     <div className='pagewithform__container'>
                         <p className='pagewithform__inputname'>E-mail</p>
-                        <input value={eMail} type="email" className='pagewithform__input' onChange={handleEMailChange} required></input>
+                        <input value={eMail} disabled={props.isLoading} type="email" pattern='[A-zА-я0-9]+@[A-zА-я0-9]+\.(ru|com)' className='pagewithform__input' onChange={handleEMailChange} required></input>
                         <p className='pagewithform__texterror' style={eMailValid ? {display: 'none'} : {display: 'block', marginTop: '0'}}>{!eMailValid ? `${eMailTextError}` : ``}</p>
                         <p className='pagewithform__inputname'>Пароль</p>
-                        <input value={password} type="password" className='pagewithform__input' onChange={handlePasswordChange} required></input>
+                        <input value={password} disabled={props.isLoading} type="password" className='pagewithform__input' onChange={handlePasswordChange} required></input>
                         <p className='pagewithform__texterror' style={passwordValid ? {display: 'none'} : {display: 'block'}}>{!passwordValid ? `${passwordTextError}` : ``}</p>
                     </div>
                     <p className='pagewithform__apitexterror'>{props.apiErrorText}</p>
-                    <button type='submit' className={isFormValid ? 'pagewithform__signbutton' : 'pagewithform__signbutton pagewithform__signbutton_disabled'} disabled={!isFormValid}>Войти</button>
+                    <button type='submit' className={!props.isLoading  && isFormValid ? 'pagewithform__signbutton' : 'pagewithform__signbutton pagewithform__signbutton_disabled'} disabled={props.isLoading || !isFormValid}>Войти</button>
                 </form>
             </PageWithForm>
         </div>

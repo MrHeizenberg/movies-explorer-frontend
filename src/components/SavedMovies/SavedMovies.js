@@ -4,6 +4,7 @@ import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import carddelete from '../../images/delete.svg';
+import { filmDuration } from '../../utils/constants';
 
 function SavedMovies(props) {
 
@@ -15,7 +16,7 @@ function SavedMovies(props) {
         <div className='savedmovies'>
             <SearchForm switchButton={props.switchOn} changeSwitch={changeSwitch} searchSavedMovies={props.searchSavedMovies} location={props.location}/>
             <MoviesCardList>
-            {props.switchOn ? props.savedCards.filter(card => card.duration < 40).map((card) => {
+            {props.switchOn ? props.savedCards.filter(card => card.duration < filmDuration).map((card) => {
                     const cardinfo = {trailer: card.trailerLink, nameRU: card.nameRU, movieId: card.movieId, id: card._id, duration: card.duration, image: card.image};
                     return (<MoviesCard 
                         card = {cardinfo} key = {card._id} saveFilms={props.saveFilms} isSaved={props.isSaved} buttonImage={carddelete} location={props.location} deleteFilm={props.deleteFilm}/>)

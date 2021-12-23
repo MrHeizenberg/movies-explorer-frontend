@@ -1,6 +1,7 @@
 import './App.css';
 import React from 'react';
 import { Route, useHistory, Switch, useLocation, Redirect } from 'react-router-dom';
+import { filmDuration } from '../../utils/constants';
 import ProtectedRoute from '../ProtectedRoute';
 import Main from '../Main/Main';
 import Header from '../Header/Header';
@@ -23,6 +24,7 @@ function App() {
   const [registerErrorText, setRegisterErrorText] = React.useState('');
   const [authErrorText, setAuthErrorText] = React.useState('');
   const [updateErrorText, setUpdateErrorText] = React.useState('');
+  const [saveErrorText ,setSaveErrorText] = React.useState('');
   const [token, setToken] = React.useState('');
   const [currentUser, setCurrentUser] = React.useState({ name: '', email: '' });
   const [cards, setCards] = React.useState([]);
@@ -32,11 +34,16 @@ function App() {
   const [checkShortResult, setCheckShortResult] = React.useState(true);
   const [savedCards, setSavedCards] = React.useState([]);
   const [switchOn, setSwitchOn] = React.useState(false);
+  const [allFilms, setAllFilms] = React.useState([]);
+  const [idError, setIdError] = React.useState('');
 
   React.useEffect(() => {
     if (localStorage.getItem('jwt')) {
       const jwt = localStorage.getItem('jwt');
       setToken(jwt);
+      if (localStorage.getItem('allFilms')) {
+        setAllFilms(JSON.parse(localStorage.getItem('allFilms')));
+      }
       getContent(jwt).then((data) => {
         setCurrentUser(data);
         if (localStorage.getItem('cards')) {
@@ -73,6 +80,7 @@ function App() {
     localStorage.removeItem('cards');
     localStorage.removeItem('shortCards');
     localStorage.removeItem('switchOn');
+    localStorage.removeItem('filmName');
     setCurrentUser({});
     setCards([]);
     setShortCards([]);
@@ -111,9 +119,17 @@ function App() {
   }
 
   function handleOnRegister(name, email, password) {
+    setIsLoading(true);
     setRegisterErrorText('');
     register(name, email, password).then(() => {
       authorize(password, email).then((data) => {
+        getCards().then((films) => {
+          setAllFilms(films);
+          localStorage.setItem('allFilms', JSON.stringify(films));
+        })
+          .catch(() => {
+            console.log('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
+          })
         localStorage.setItem('jwt', data.token);
         setToken(data.token);
         getContent(data.token).then((res) => {
@@ -130,11 +146,20 @@ function App() {
         }
         setRegisterErrorText('При регистрации пользователя произошла ошибка');
       })
+      .finally(() => setIsLoading(false))
   }
 
   function handleonAuthorize(password, email) {
+    setIsLoading(true);
     setAuthErrorText('');
     authorize(password, email).then((data) => {
+      getCards().then((films) => {
+        setAllFilms(films);
+        localStorage.setItem('allFilms', JSON.stringify(films));
+      })
+        .catch(() => {
+          console.log('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
+        })
       localStorage.setItem('jwt', data.token);
       setToken(data.token);
       setIsLogged(true);
@@ -153,26 +178,23 @@ function App() {
         }
         setAuthErrorText('При авторизации пользователя произошла ошибка');
       })
+      .finally(() => setIsLoading(false))
   }
 
   function initialCards(filmName) {
     setCards([]);
     setIsLoading(true);
-    getCards().then((films) => {
-      const result = films.map((film) => { return savedCards.some((card) => { return film.id === card.movieId }) ? { ...film, 'isSaved': true } : { ...film, 'isSaved': false } }).filter((film) => film.nameRU.toLowerCase().includes(filmName.toLowerCase()));
-      setCards(result);
-      localStorage.setItem('cards', JSON.stringify(result));
-      setShortCards(result.filter(film => film.duration < 40));
-      localStorage.setItem('shortCards', JSON.stringify(result.filter(film => film.duration < 40)));
-      if (result.length === 0) {
-        setCheckResult(false);
-      }
-      else setCheckResult(true);
-    })
-      .catch(() => {
-        console.log('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
-      })
-      .finally(() => setIsLoading(false));
+    localStorage.setItem('filmName', filmName);
+    const result = allFilms.map((film) => { return savedCards.some((card) => { return film.id === card.movieId }) ? { ...film, 'isSaved': true } : { ...film, 'isSaved': false } }).filter((film) => film.nameRU.toLowerCase().includes(filmName.toLowerCase()));
+    setCards(result);
+    localStorage.setItem('cards', JSON.stringify(result));
+    setShortCards(result.filter(film => film.duration < filmDuration));
+    localStorage.setItem('shortCards', JSON.stringify(result.filter(film => film.duration < filmDuration)));
+    if (result.length === 0) {
+      setCheckResult(false);
+    }
+    else setCheckResult(true);
+    setIsLoading(false);
   }
 
   function searchSavedMovies(filmName) {
@@ -192,12 +214,12 @@ function App() {
 
   function updateChanges(result) {
     setSavedCards(result);
-        const updateCards = cards.map((card) => { return result.some((film) => { return card.id === film.movieId }) ? { ...card, 'isSaved': true } : { ...card, 'isSaved': false } });
-        localStorage.setItem('cards', JSON.stringify(updateCards));
-        setCards(updateCards);
-        const updateShortCards = shortCards.map((card) => { return result.some((film) => { return card.id === film.movieId }) ? { ...card, 'isSaved': true } : { ...card, 'isSaved': false } });
-        localStorage.setItem('shortCards', JSON.stringify(updateShortCards));
-        setShortCards(updateShortCards);
+    const updateCards = cards.map((card) => { return result.some((film) => { return card.id === film.movieId }) ? { ...card, 'isSaved': true } : { ...card, 'isSaved': false } });
+    localStorage.setItem('cards', JSON.stringify(updateCards));
+    setCards(updateCards);
+    const updateShortCards = shortCards.map((card) => { return result.some((film) => { return card.id === film.movieId }) ? { ...card, 'isSaved': true } : { ...card, 'isSaved': false } });
+    localStorage.setItem('shortCards', JSON.stringify(updateShortCards));
+    setShortCards(updateShortCards);
   }
 
   function saveFilms(country, director, duration, year, description, image, trailer, thumbnail, movieId, nameRU, nameEN, isSaved) {
@@ -205,8 +227,8 @@ function App() {
       const savedFilm = savedCards.find(card => card.movieId === movieId);
       return deleteMovie(token, savedFilm._id)
         .then(() => {
-        const result = savedCards.filter(card => card.movieId !== movieId);
-        updateChanges(result);
+          const result = savedCards.filter(card => card.movieId !== movieId);
+          updateChanges(result);
         })
         .catch(() => {
           console.log('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
@@ -217,12 +239,17 @@ function App() {
         const result = [...savedCards, movie];
         updateChanges(result);
       })
-      .catch(() => {
-        console.log('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
+      .catch((err) => {
+        if (err === 400) {
+          setSaveErrorText('Невозможно сохранить данную карточку');
+          setIdError(movieId);
+          return;
+        }
+        setSaveErrorText('При авторизации пользователя произошла ошибка');
       })
   }
 
-  function deleteFilm(filmId,movieId) {
+  function deleteFilm(filmId, movieId) {
     deleteMovie(token, filmId)
       .then(() => {
         const result = savedCards.filter(card => card.movieId !== movieId);
@@ -234,6 +261,7 @@ function App() {
   }
 
   function onProfileUpdate(name, email) {
+    setIsLoading(true);
     setUpdateErrorText('');
     profileUpdate(name, email, token)
       .then((user) => {
@@ -245,8 +273,9 @@ function App() {
           setUpdateErrorText('Пользователь с таким email уже существует');
           return;
         }
-        setUpdateErrorText('При авторизации пользователя произошла ошибка');
+        setUpdateErrorText('При редактировании пользователя произошла ошибка');
       })
+      .finally(() => setIsLoading(false))
   }
 
   return (
@@ -255,17 +284,17 @@ function App() {
         {(location.pathname === '/' || location.pathname === '/movies' || location.pathname === '/saved-movies' || location.pathname === '/profile') && <Header isLogged={isLogged} pushToAccount={pushToAccount} pushToMain={pushToMain} pushToFilms={pushToFilms} pushToSavedFilms={pushToSavedFilms} pushToSignUp={pushToSignUp} pushToSignIn={pushToSignIn} location={location.pathname} />}
         <Switch>
           <Route path='/signup'>
-            {!isLogged ? <Register onRegister={handleOnRegister} pushToMain={pushToMain} pushToSignIn={pushToSignIn} apiErrorText={registerErrorText} registerChange={registerChange} /> : <Redirect to='./' />}
+            {!isLogged ? <Register onRegister={handleOnRegister} pushToMain={pushToMain} pushToSignIn={pushToSignIn} apiErrorText={registerErrorText} registerChange={registerChange} isLoading={isLoading} /> : <Redirect to='./' />}
           </Route>
           <Route path='/signin'>
-            {!isLogged ? <Login onAuth={handleonAuthorize} pushToMain={pushToMain} pushToSignUp={pushToSignUp} apiErrorText={authErrorText} authChange={authChange} /> : <Redirect to='./' />}
+            {!isLogged ? <Login onAuth={handleonAuthorize} pushToMain={pushToMain} pushToSignUp={pushToSignUp} apiErrorText={authErrorText} authChange={authChange} isLoading={isLoading} /> : <Redirect to='./' />}
           </Route>
           <Route exact path='/'>
             <Main />
           </Route>
-          <ProtectedRoute exact path='/movies' loggedIn={isLogged} component={Movies} initialCards={initialCards} cards={cards} shortCards={shortCards} isLoading={isLoading} checkResult={checkResult} saveFilms={saveFilms} location={location} changeSwitch={changeSwitch} switchOn={switchOn} />
+          <ProtectedRoute exact path='/movies' loggedIn={isLogged} component={Movies} initialCards={initialCards} cards={cards} shortCards={shortCards} isLoading={isLoading} checkResult={checkResult} saveFilms={saveFilms} location={location} changeSwitch={changeSwitch} switchOn={switchOn} apiErrorText={saveErrorText} idError={idError} />
           <ProtectedRoute exact path='/saved-movies' loggedIn={isLogged} component={SavedMovies} savedCards={savedCards} saveFilms={saveFilms} location={location} deleteFilm={deleteFilm} changeSwitch={changeSwitch} switchOn={switchOn} searchSavedMovies={searchSavedMovies} checkShortResult={checkShortResult} />
-          <ProtectedRoute exact path='/profile' loggedIn={isLogged} component={Profile} signOut={signOut} onProfileUpdate={onProfileUpdate} apiErrorText={updateErrorText} />
+          <ProtectedRoute exact path='/profile' loggedIn={isLogged} component={Profile} signOut={signOut} onProfileUpdate={onProfileUpdate} apiErrorText={updateErrorText} isLoading={isLoading} />
           <Route path='*'>
             <PageNotFound pushToMain={pushToMain} />
           </Route>

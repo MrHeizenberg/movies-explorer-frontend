@@ -27,6 +27,11 @@ function Register(props) {
         setEMail(e.target.value);
         setEMailValid(e.target.validity.valid);
         if (!e.target.validity.valid) {
+            if (e.target.validity.patternMismatch) {
+                const errorMessage = 'Введите корректный email';
+                setEMailTextError(errorMessage);
+                return;
+            }
             const errorMessage = e.target.validationMessage;
             setEMailTextError(errorMessage);
         }
@@ -66,17 +71,17 @@ function Register(props) {
                 <form type='submit' className='pagewithform__form' onSubmit={handleSubmit} onChange={checkValidity}>
                     <div className='pagewithform__container'>
                         <p className='pagewithform__inputname'>Имя</p>
-                        <input value={name}  onChange={handleNameChange} className='pagewithform__input' pattern='[A-zА-я\s\-]{1,30}' minLength={2} maxLength={30} required></input>
+                        <input value={name} disabled={props.isLoading} onChange={handleNameChange} className='pagewithform__input' pattern='[A-zА-я\s\-]{1,30}' minLength={2} maxLength={30} required></input>
                         <p className='pagewithform__texterror' style={nameValid ? {display: 'none'} : {display: 'block', marginTop: '0'}}>{!nameValid ? `${nameTextError}` : ``}</p>
                         <p className='pagewithform__inputname'>E-mail</p>
-                        <input value={eMail}  onChange={handleEMailChange} type="email" className='pagewithform__input' required></input>
+                        <input value={eMail} disabled={props.isLoading} onChange={handleEMailChange} type='email' pattern='[A-zА-я0-9]+@[A-zА-я0-9]+\.(ru|com)' className='pagewithform__input' required></input>
                         <p className='pagewithform__texterror' style={eMailValid ? {display: 'none'} : {display: 'block', marginTop: '0'}}>{!eMailValid ? `${eMailTextError}` : ``}</p>
                         <p className='pagewithform__inputname'>Пароль</p>
-                        <input value={password}  onChange={handlePasswordChange} type="password" className='pagewithform__input' required></input>
+                        <input value={password} disabled={props.isLoading} onChange={handlePasswordChange} type="password" className='pagewithform__input' minLength={4} required></input>
                         <p className='pagewithform__texterror' style={passwordValid ? {display: 'none'} : {display: 'block'}}>{!passwordValid ? `${passwordTextError}` : ``}</p>
                     </div>
                     <p className='pagewithform__apitexterror'>{props.apiErrorText}</p>
-                    <button type='submit' className={isFormValid ? 'pagewithform__signbutton' : 'pagewithform__signbutton pagewithform__signbutton_disabled'} disabled={!isFormValid}>Зарегистрироваться</button>
+                    <button type='submit' className={!props.isLoading  && isFormValid ? 'pagewithform__signbutton' : 'pagewithform__signbutton pagewithform__signbutton_disabled'} disabled={props.isLoading || !isFormValid}>Зарегистрироваться</button>
                 </form>
             </PageWithForm>
         </div>

@@ -21,6 +21,7 @@ function MoviesCard(props) {
             </div>
             <a href={`${props.card.link}`} className='moviescard__image' target='_blank' rel="noopener noreferrer" style={{ backgroundImage: `url(${props.card.image})` }}> </a>
             <button className='moviescard__save' style={props.location.pathname === '/saved-movies' ? { backgroundImage: `url(${props.buttonImage})`} : props.card.isSaved ? { backgroundImage: `url(${savedButton})` } : { backgroundImage: `url(${saveButton})` }} onClick={props.location.pathname === '/saved-movies' ? deleteFilm : saveFilm}></button>
+        <p className='moviescard__apiErrorText' style={props.idError === props.card.movieId ? { display: 'block' } : { display: 'none' }}>{props.apiErrorText}</p>
         </div>
     )
 }

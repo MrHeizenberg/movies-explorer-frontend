@@ -32,10 +32,16 @@ function SearchForm(props) {
         props.searchSavedMovies(filmName);
     }
 
+    React.useEffect(() => {
+        if (localStorage.getItem('filmName') && props.location.pathname === '/movies') {
+            setFilmName(localStorage.getItem('filmName'))
+        }
+    }, []);
+
     return (
         <div className='searchform'>
             <form type = 'submit' className = 'searchform__form' onSubmit={props.location.pathname === '/movies' ? handleSubmit : searchSavedMovies}>
-                <input name = 'film' className='searchform__film' placeholder = 'Фильм' onChange={handleFilmNameChange} onClick={handleFilmNameChange} onInvalid={handleFilmNameChange} required></input>
+                <input name = 'film' className='searchform__film' value={filmName} placeholder = 'Фильм' onChange={handleFilmNameChange} onClick={handleFilmNameChange} onInvalid={handleFilmNameChange} required></input>
                 <button className={filmNameValid ? 'searchform__button' : 'searchform__button searchform__button_disabled'} disabled={!filmNameValid}></button>
             </form>
             <p className='searchform__texterror' style={filmNameValid ? {display: 'none'} : {display: 'block'}}>{filmNameTextError}</p>
